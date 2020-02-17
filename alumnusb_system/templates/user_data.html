@@ -1,0 +1,188 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block stylesheet %}
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href=" {% static 'css/user_data.css' %} ">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock stylesheet %}
+
+<!------ Include the above in your HEAD tag ---------->
+{% block content %}
+<div style="height: 5rem"></div>
+<div class="container emp-profile horizontal-align">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src=" {% static 'img/default-user.png'  %} " alt=""/>
+                            <div class="file btn btn-lg btn-primary">
+                                Change Photo
+                                <input type="file" name="file"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h5>
+                                        {{ User_information.First_name}}  
+                                        {{ User_information.Middle_name }}
+                                        {{ User_information.Last_name}} 
+                                        
+                                    </h5>
+                                    <h6>
+                                        {{ User_information.Undergrad_degree }}
+                                    </h6>
+                                    {% if User_information.Donor == 1 %}
+                                    <p class="proile-rating">Donor &#127775; </p>
+                                    {% endif %}
+                                    {% if User_information.USB_alumn == 1%}
+                                    <p> USB Alumn &#127775; </p>
+                                    {% endif%}
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="" role="tab" aria-controls="home" aria-selected="true">About</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{% url 'edit_user_data' user.username %}" class="btn-primary rounded" id="edit-profile"> <strong>Edit Profile</strong> </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            <strong>SOCIAL MEDIA:</strong>
+                            <ul>
+                                <li>Twitter: {{User_information.Twitter_account}} </li>
+                                <li>Instagram: {{User_information.Instagram_account}} </li>
+                            </ul>
+                            
+                            <strong>CONTACT INFO:</strong>
+                            <ul>
+                                <li>Mailing city: {{ User_information.Mailing_city}}</li>
+                                <li>Mailing state: {{ User_information.Mailing_state}}</li>
+                                <li>Mobile number: {{ User_information.Mobile }}</li>
+                                <li>Work Email: {{User_information.Work_email}} </li>
+                                <li>Email: {{User_information.Email}} </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><strong> Cohorte: </strong></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{User_information.Cohorte}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><strong> Birth date: </strong></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.Birthdate}} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><strong> Graduate Degree: </strong></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.Graduate_degree}} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><strong> Carnet: </strong></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{User_information.Carnet}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> <strong>Undergraduate Campus: </strong> </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.USB_undergrad_campus}} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> <strong> Graduate Campus: </strong> </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.Graduate_campus}} </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> <strong> Workplace: </strong> </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.Workplace}} </p>
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Experience</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Hourly Rate</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>10$/hr</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Total Projects</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>230</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>English Level</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Availability</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>6 months</p>
+                                            </div>
+                                        </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Your Bio</label><br/>
+                                        <p>Your detail description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+        {% endblock content %}
