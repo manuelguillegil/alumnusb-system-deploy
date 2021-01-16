@@ -28,7 +28,10 @@ $ pip install -r requirements.txt
 ```
 $ bash createlocaldb.sh
 ```
-
+- Correr las migraciones ya existentes
+```
+$ python manage.py migrate
+```
 - Ejecutar el servidor en desarrollo
 ```
 $ python manage.py runserver
