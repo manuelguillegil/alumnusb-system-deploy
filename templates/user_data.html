@@ -4,26 +4,28 @@
 {% block stylesheet %}
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href=" {% static 'css/user_data.css' %} ">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 {% endblock stylesheet %}
 
-<!------ Include the above in your HEAD tag ---------->
 {% block content %}
 <div style="height: 5rem"></div>
-<div class="container emp-profile horizontal-align">
-            <form method="post">
+<div class="container emp-profile horizontal-align shadow-lg">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src=" {% static 'img/default-user.png'  %} " alt=""/>
-                            <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file"/>
+                            {% if pic.1 %}
+                                <img src="{{pic.0}}" class="img-fluid" data-imgid="{{pic.2}}" id="profile-pic">
+                            {% else %}
+                                <img src=" {% static 'img/default-user.png'  %} " alt="" class="img-fluid" 
+                                data-imgid="{{pic.2}}" id="profile-pic"/>
+                            {% endif %}
+                            <div class="file btn btn-lg btn-primary h-100 mb-5" data-target="#prof-pic-form" data-toggle="modal">
+                                Cambiar imagen.
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
+                        {{prof_pic_mid}}
                         <div class="profile-head">
                                     <h5>
                                         {{ User_information.First_name}}  
@@ -32,7 +34,7 @@
                                         
                                     </h5>
                                     <h6>
-                                        {{ User_information.Undergrad_degree }}
+                                        {{ User_information.get_Undergrad_degree_display }}
                                     </h6>
                                     {% if User_information.Donor == 1 %}
                                     <p class="proile-rating">Donor &#127775; </p>
@@ -64,9 +66,10 @@
                             <ul>
                                 <li>Mailing city: {{ User_information.Mailing_city}}</li>
                                 <li>Mailing state: {{ User_information.Mailing_state}}</li>
+                                <li>Mailing country: {{ User_information.get_Mailing_country_display }}</li>
                                 <li>Mobile number: {{ User_information.Mobile }}</li>
-                                <li>Work Email: {{User_information.Work_email}} </li>
                                 <li>Email: {{User_information.Email}} </li>
+                                <li>Work Email: {{User_information.Work_email}} </li>
                                 
                             </ul>
                         </div>
@@ -74,14 +77,6 @@
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label><strong> Cohorte: </strong></label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>{{User_information.Cohorte}}</p>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label><strong> Birth date: </strong></label>
@@ -92,10 +87,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label><strong> Graduate Degree: </strong></label>
+                                                <label><strong> Cohorte: </strong></label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p> {{User_information.Graduate_degree}} </p>
+                                                <p>{{User_information.Cohorte}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -111,7 +106,15 @@
                                                 <label> <strong>Undergraduate Campus: </strong> </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p> {{User_information.USB_undergrad_campus}} </p>
+                                                <p> {{User_information.get_USB_undergrad_campus_display }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label><strong> Graduate Degree: </strong></label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> {{User_information.Graduate_degree}} </p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -132,57 +135,12 @@
                                             </div>
                                         </div>
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Experience</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Hourly Rate</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>10$/hr</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Total Projects</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>230</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>English Level</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Expert</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Availability</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>6 months</p>
-                                            </div>
-                                        </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Your Bio</label><br/>
-                                        <p>Your detail description</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </form>           
+                {% include 'prof_pic_form_modal.html' with mid="prof-pic-form" imgs=prof_pics currentImg=pic.2 picform=form%}
+                
+
+
         </div>
         {% endblock content %}

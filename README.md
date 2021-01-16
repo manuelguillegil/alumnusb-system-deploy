@@ -1,8 +1,8 @@
 # ALUMNUSB-SYSTEM
-Sistema para AlumnUSB. Continuación para la materia de Sistemas 2
+Web application using gamification strategies for the AlumnUSB NGO. It seeks to motivate graduates of the Simón Bolívar University to make donations constantly through a medal system. In addition, the application allows you to view user statistics
 
 #
-Herramientas y versiones:
+Software and versions
 ---------
 
 - Python: 3.6.12
@@ -10,30 +10,30 @@ Herramientas y versiones:
 - Postgres: 13.1
 
 #
-Requisitos para ejecutar:
+Requirements to run
 ---------
 
 - Python (>=3.x <3.8.x)
 #
-Instrucciones:
+Instructions
 ---------
 
-- Clonar el repo
-- Crear y activar ambiente virtual (virtualenv)
-- Instalar dependencias:
+- Clone the repo
+- Create and activate virtual enviroment (virtualenv)
+- Install dependencies
 ```
 $ pip install -r requirements.txt
 ```
-- Ejecutar script para inicializar la BD
+- Execute script to initialize DB
 ```
 $ bash createlocaldb.sh
 ```
-- Correr las migraciones ya existentes
+- Run migrations that already exists
 ```
 $ python manage.py migrate
 ```
-- Ejecutar el servidor en desarrollo
+- Run the development server
 ```
 $ python manage.py runserver
 ```
-- Ingresar en el navegador a http://localhost:8000/
+- Into to the browser in http://localhost:8000/

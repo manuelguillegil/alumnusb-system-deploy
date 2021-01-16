@@ -5,38 +5,9 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login
 
-from .models import User_information
-from .forms import SignUpForm, EditUserDataForm, getUserDataForm
+from .models import User_information, User_stats, Profile_Picture
+from .forms import SignUpForm, EditUserDataForm, getUserDataForm, pictureId
 from django.contrib.auth.views import LoginView
-
-# Quitar esta view luego
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            if not User_information.filter(Email=user.email).exists():
-                user1inf = User_information(First_name='Luis',Middle_name='Algo',
-                    Last_name='Dias',Mailing_city='Caracas',USB_alumn=1,
-                    Codigo_Alumn_USB='1234',Mailing_country='Venezuela',
-                    Email=user.email,Mobile='03013201',Cohorte=15,Birthdate=1/1/1990,
-                    Age=20,Undergrad_degree='compu',Graduate_degree='compu',Carnet='1511540',
-                    USB_undergrad_campus='Sartenejar',Graduate_campus='sartenejas',Work_email='',
-                    Workplace='',Donor=1,Social_networks='tw,ig,fc',Twitter_account='ldiaz',
-                    Instagram_account='ldiaz')
-                user1inf.save()
-            return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
-
-def indexView(request):
-    return render(request,'index.html')
-
-@login_required
-def dashboardView(request):
-    return render(request,'dashboard.html')
 
 @csrf_protect
 def registerView(request):
@@ -46,7 +17,7 @@ def registerView(request):
             user = form.save()
             if not User_information.objects.filter(Email=user.email).exists():
                 user1inf = User_information(First_name='',Middle_name='',
-                    Last_name='D',Mailing_city='',USB_alumn=0,
+                    Last_name='',Mailing_city='',USB_alumn=0,
                     Codigo_Alumn_USB='',Mailing_country='',
                     Email=user.email,Mobile='',Cohorte=0,Birthdate='2020-1-1',
                     Age=1,Undergrad_degree='',Graduate_degree='',Carnet=0,
@@ -54,6 +25,11 @@ def registerView(request):
                     Workplace='',Donor=1,Social_networks='',Twitter_account='',
                     Instagram_account='')
                 user1inf.save()
+            if not User_stats.objects.filter(Email=user.email).exists():
+                user1stats = User_stats(Email=user.email,Average_gift=0,
+                    Largest_gift=0,Smallest_gift=0,Total_gifts=0,
+                    Best_gift_year_total=0,Best_gift_year=0, First_gift_date='2020-1-1', Last_gift_date='2020-1-1', Total_number_of_gifts=0)
+                user1stats.save()
             return redirect('login_url')
     else:
         form = SignUpForm()
@@ -72,47 +48,64 @@ def edit_user_data(request, username):
         form = EditUserDataForm(request.POST, instance=user_info)
         if form.is_valid():
             form.save()
-            return redirect('edit_user_data_test', request.user.username)  
+            return redirect('user_data', request.user.username)  
     else:
         form = EditUserDataForm(instance=user_info)
 
     return render(request, 'edit_user_data.html', {'User_information': user_info, 'form': form})
-#Esta es una función de prueba para la pág de edit_user_data
+
 @login_required
-def edit_user_data_test(request, username):
+def user_data(request, username):
 
     if request.user.username != username:
         return redirect('home')
-    """ xd """
+
+    usr = get_object_or_404(User, username=username)
+    user_info = get_object_or_404(User_information,  Email=usr.email)
+
+    ret_all_pics = []
+    all_pictures = Profile_Picture.objects.all()
+    for p in all_pictures:
+        ret_all_pics.append(( p , "/"+ p.Picture.url ))
+
+
+    if ( user_info.Picture != None ):
+        pic = Profile_Picture.objects.get(id=user_info.Picture.id)
+        ret_pic = ( "/"+ pic.Picture.url , True, pic.id )
+    else:
+        ret_pic = ( "" , False , -1)
+
+    form = pictureId()
+
+    args = {
+            'User_information': user_info, 
+            'pic': ret_pic,
+            'prof_pics':ret_all_pics,
+            'form': form
+            }
+
+    return render(request, 'user_data.html', args)
+
+@login_required
+def edit_user_picture(request, username):
+
+    if request.user.username != username:
+        return redirect('home')
+    
     usr = get_object_or_404(User, username=username)
     user_info = get_object_or_404(User_information,  Email=usr.email)
 
     if request.method == 'POST':
-        form = EditUserDataForm(request.POST, instance=user_info)
-        if form.is_valid():
-            form.save()
-            return redirect('Datos Personales')  
+        form = pictureId(request.POST)
+        pic_id = form.data['Pic_id']
+        if Profile_Picture.objects.filter(id=pic_id).exists():
+            pic = Profile_Picture.objects.get(id=pic_id)
+            user_info.Picture = pic
+            user_info.save()
+            return redirect('user_data', request.user.username)  
+        else:
+            form = pictureId()
     else:
-        form = EditUserDataForm(instance=user_info)
-    return render(request, 'user_data.html', {'User_information': user_info, 'form': form})
+        form = pictureId()
 
-
-
-@login_required
-def get_user_data(request, username):
-
-    if request.user.username != username:
-        return redirect('home')
-    
-    if request.method == 'POST':
-        form = getUserDataForm(request.POST)
-        if form.is_valid():
-            usr_info = form.save()
-            usr_info.Email = request.user.email
-            usr_info.save()
-            return redirect('Datos Personales')  
-    else:
-        form = getUserDataForm()
-
-    return render(request, 'get_user_data.html', {'form': form})
-    
+    return render(request, 'edit_user_picture.html', {'form': form})

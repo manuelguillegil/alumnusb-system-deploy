@@ -32,6 +32,7 @@
   --danger: #dc3545;
   --light: #f8f9fa;
   --dark: #343a40;
+  --black: #111111;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -343,9 +344,25 @@ progress {
   -webkit-appearance: none;
 }
 
-::-webkit-file-upload-button {
+input[type=file]::-webkit-file-upload-button {
   font: inherit;
   -webkit-appearance: button;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 0.125rem solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  color: #000000;
+  border-color: #000000;
 }
 
 output {
@@ -486,6 +503,12 @@ mark,
 .img-fluid {
   max-width: 100%;
   height: auto;
+}
+
+.img-col {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
 }
 
 .img-thumbnail {
@@ -2456,6 +2479,42 @@ fieldset:disabled a.btn {
 .btn-danger:not(:disabled):not(.disabled):active:focus, .btn-danger:not(:disabled):not(.disabled).active:focus,
 .show > .btn-danger.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+}
+
+.btn-masthead {
+  color: var(--light);
+  border-color: var(--light);
+  text-decoration: none;
+  border-radius: 0;
+  border-width: 1px;
+
+}
+
+.btn-masthead:hover {
+  color: #212529;
+  background-color: var(--light);
+}
+
+.btn-masthead:focus, .btn-masthead.focus {
+  box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
+}
+
+.btn-masthead.disabled, .btn-masthead:disabled {
+  color: #212529;
+  background-color: #f8f9fa;
+  border-color: #f8f9fa;
+}
+
+.btn-masthead:not(:disabled):not(.disabled):active, .btn-masthead:not(:disabled):not(.disabled).active,
+.show > .btn-masthead.dropdown-toggle {
+  color: #212529;
+  background-color: #dae0e5;
+  border-color: #d3d9df;
+}
+
+.btn-masthead:not(:disabled):not(.disabled):active:focus, .btn-masthead:not(:disabled):not(.disabled).active:focus,
+.show > .btn-masthead.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
 }
 
 .btn-light {
@@ -6225,7 +6284,7 @@ a.close.disabled {
 }
 
 .bg-fourth {
-  background-color: #ffffbe !important;
+  background-color: rgba(233, 229, 200, 0.5) !important;
 }
 
 .bg-black {
@@ -9768,7 +9827,6 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .masthead-bg-third {
-  background: #fff no-repeat url("/static/img/entrada.jpg");
   background-size: cover;
 }
 
@@ -9867,6 +9925,54 @@ a.text-dark:hover, a.text-dark:focus {
   opacity: 1;
 }
 
+.floating-label-form-group-edit {
+  position: relative;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.floating-label-form-group-edit input,
+.floating-label-form-group-edit textarea {
+  font-size: 1.5em;
+  position: relative;
+  z-index: 1;
+  padding-right: 0;
+  padding-left: 0;
+  resize: none;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none !important;
+}
+
+.floating-label-form-group-edit label {
+  font-size: 1.5em;
+  line-height: 1.764705882em;
+  position: relative;
+  z-index: 0;
+  top: 0em;
+  display: block;
+  margin: 0;
+  transition: top 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+}
+
+.floating-label-form-group-edit:not(:first-child) {
+  padding-left: 14px;
+  border-left: 1px solid #e9ecef;
+}
+
+.floating-label-form-group-edit-with-value label {
+  color: rgb(246, 255, 121);
+}
+
+.floating-label-form-group-edit-with-focus label {
+  color: rgb(246, 255, 121);
+}
+
+form .row:first-child .floating-label-form-group-edit {
+  border-top: 1px solid #e9ecef;
+}
+
 .floating-label-form-group {
   position: relative;
   border-bottom: 1px solid #e9ecef;
@@ -9929,4 +10035,10 @@ form .row:first-child .floating-label-form-group {
 
 .copyright {
   background-color: #1a252f;
+}
+
+.bg-login-image {
+  background: url("/static/img/jardines.jpg");
+  background-position: center;
+  background-size: cover;
 }

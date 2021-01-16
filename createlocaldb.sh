@@ -12,6 +12,12 @@ sudo echo "Password introduced."
 
 echo "Configuring local data base..."
 
+printf "\nDropping database if exists...\n"
+sudo -u postgres psql << EOF
+drop database if exists alumnusb_db; 
+\q
+EOF
+
 printf "\nCreating data base user\n"
 sudo -u postgres createuser alumnusb_admin
 echo "User created: alumnusb_admin"
