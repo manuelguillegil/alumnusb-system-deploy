@@ -37,3 +37,16 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 - Into to the browser in http://localhost:8000/
+
+
+#
+Docker
+---------
+
+- Docker: 19.03.8
+- Modify the alumnusb_system/settings.py file: on variable DATABASE change HOST to 'db' and PORT to '5432'
+- On the root file where 'Dockerfile' file is, run the following command
+```
+$ docker-compose up
+```
+- Finally check if the server is running on the docker cotainer by directing http://localhost:8000/ in your browser
