@@ -20,13 +20,13 @@ Requirements to run
 Instructions
 ---------
 
-- On the root file where 'Dockerfile' file is, run the following command
+- On the root foler where ``Dockerfile`` file is located, run the following command:
 ```
 $ docker-compose up
 ```
-- Finally check if the server is running on the docker cotainer by directing http://localhost:8000/ in your browser
+- Finally check if the server is running on the docker container by directing http://localhost:8000/ in your browser.
 
-- PD: If you need to erase the data on the database delete the postgres container with the following command and compose after it: 
+- **Note**: If you need to erase the data on the database delete the postgres container with the following command and compose after it: 
 ```
 $ docker container rm alumnusb-system_db_1
 ```
